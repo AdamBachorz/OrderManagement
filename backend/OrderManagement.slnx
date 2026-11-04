@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="OrderManagement.Api/OrderManagement.Api.csproj" />
+  <Project Path="OrderManagement.AppHost/OrderManagement.AppHost.csproj" Id="9cbd545d-3789-41a6-b738-c44ea64f1e92" />
+  <Project Path="OrderManagement.ServiceDefaults/OrderManagement.ServiceDefaults.csproj" />
+</Solution>
