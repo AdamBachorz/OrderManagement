@@ -17,6 +17,15 @@ const PROXY_CONFIG = {
     //   proxyReq.setHeader('cookie', cookie);
     // },
   },
+  '/api': {
+    target: 'http://localhost:5198',
+    secure: false,
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': '/api/v1',
+    },
+    logLevel: 'debug',
+  },
 };
 
 module.exports = PROXY_CONFIG;

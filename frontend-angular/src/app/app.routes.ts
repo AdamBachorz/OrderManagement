@@ -8,6 +8,7 @@ import { Error404 } from './routes/sessions/error-404';
 import { Error500 } from './routes/sessions/error-500';
 import { Login } from './routes/sessions/login/login';
 import { Signup } from './routes/sessions/signup/signup';
+import { Home } from './routes/home/home';
 
 export const routes: Routes = [
   {
@@ -16,11 +17,15 @@ export const routes: Routes = [
     //canActivate: [authGuard],
     //canActivateChild: [authGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: Dashboard },
-      { path: '403', component: Error403 },
-      { path: '404', component: Error404 },
-      { path: '500', component: Error500 },
+      {
+        path: 'home',
+        component: Home,
+      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      // { path: 'dashboard', component: Dashboard },
+      // { path: '403', component: Error403 },
+      // { path: '404', component: Error404 },
+      // { path: '500', component: Error500 },
     ],
   },
   {

@@ -11,10 +11,24 @@ builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
 });
 
+var myAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200")
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+app.UseCors(myAllowSpecificOrigins);
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapDefaultEndpoints();
@@ -25,7 +39,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Add test endpoints for demonstration purposes
-app.MapGet("/api/v1/test", () => TypedResults.Ok($"Hello World! {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}"))
+app.MapGet("/api/v1/test", () => Results.Ok($"Hello World! {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}"))
     .WithName("GetRootTest");
 app.MapGet("/api/v1/test/{id}", (int id) => TypedResults.Ok($"Hello World! {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")} - {id}"))
     .WithName("GetRootTestWithId");

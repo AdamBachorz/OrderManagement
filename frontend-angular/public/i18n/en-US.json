@@ -1,6 +1,7 @@
 {
   "menu": {
     "dashboard": "Dashboard",
+    "Home": "Home",
     "design": "Design",
     "design.colors": "Color System",
     "design.icons": "Material Icons",
