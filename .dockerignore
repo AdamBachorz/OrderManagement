@@ -1,0 +1,30 @@
+# Prevent secrets from being sent to Docker build contexts
+.env
+.env.*
+**/.env
+**/.env.*
+*.pem
+*.key
+*.crt
+
+# Git / editor metadata
+.git
+.gitignore
+.vscode/
+.vs/
+.idea/
+
+# Build artifacts
+**/bin/
+**/obj/
+**/publish/
+**/artifacts/
+
+# Test output
+**/TestResults/
+**/coverage/
+*.trx
+
+# OS files
+**/.DS_Store
+**/Thumbs.db
