@@ -1,0 +1,10 @@
+﻿global using NSubstitute;
+global using NSubstitute.ExceptionExtensions;
+global using OrderManagement.Application.Abstractions;
+global using OrderManagement.Application.Common;
+global using OrderManagement.Application.Features.Orders;
+global using OrderManagement.Application.Features.Orders.Queries;
+global using OrderManagement.Application.Tests.TestHelpers;
+global using OrderManagement.Domain.Common;
+global using OrderManagement.Domain.Entities;
+global using Xunit;
