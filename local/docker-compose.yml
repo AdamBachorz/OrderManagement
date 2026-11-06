@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ordermanagement-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ordermanagement-api:
+    build:
+      context: ../backend
+      dockerfile: OrderManagement.Api/Dockerfile
+    container_name: ordermanagement-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ASPNETCORE_URLS: http://+:${APP_API_PORT}
+      ConnectionStrings__PostgreSQL: ${ConnectionStrings__PostgreSQL}
+    ports:
+      - "${APP_API_PORT}:${APP_API_PORT}"
+    restart: unless-stopped
+
+  ordermanagement-apphost:
+    build:
+      context: ../backend
+      dockerfile: OrderManagement.AppHost/Dockerfile
+    container_name: ordermanagement-apphost
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ordermanagement-api:
+        condition: service_started
+    environment:
+      DOTNET_ENVIRONMENT: ${DOTNET_ENVIRONMENT}
+      ASPNETCORE_URLS: http://+:${APP_APPHOST_PORT}
+      ConnectionStrings__PostgreSQL: ${ConnectionStrings__PostgreSQL}
+    ports:
+      - "${APP_APPHOST_PORT}:${APP_APPHOST_PORT}"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
