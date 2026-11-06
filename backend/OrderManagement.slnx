@@ -1,5 +1,11 @@
 <Solution>
+  <Folder Name="/tests/">
+    <Project Path="OrderManagement.Application.Test/OrderManagement.Application.Test.csproj" Id="88a2eecd-406b-469f-889d-8bc734695345" />
+  </Folder>
   <Project Path="OrderManagement.Api/OrderManagement.Api.csproj" />
   <Project Path="OrderManagement.AppHost/OrderManagement.AppHost.csproj" Id="9cbd545d-3789-41a6-b738-c44ea64f1e92" />
+  <Project Path="OrderManagement.Application/OrderManagement.Application.csproj" Id="db2d77e9-1dbb-4ef2-9498-ec1969809c41" />
+  <Project Path="OrderManagement.Domain/OrderManagement.Domain.csproj" Id="0d407407-2d2e-4d26-9ffd-6a11ae1f0350" />
+  <Project Path="OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj" Id="79f0159a-3336-4e48-bca9-4abc30d6bda2" />
   <Project Path="OrderManagement.ServiceDefaults/OrderManagement.ServiceDefaults.csproj" />
 </Solution>

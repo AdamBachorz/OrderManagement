@@ -23,7 +23,7 @@ namespace OrderManagement.Api.Middlewares
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Wystąpił nieobsłużony wyjątek aplikacji.");
+                _logger.LogError(ex, "The error occurred during request processing.");
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -46,7 +46,7 @@ namespace OrderManagement.Api.Middlewares
             {
                 Status = (int)statusCode,
                 Type = exception.GetType().Name,
-                Title = "The error occurred during request processing.",
+                Title = "[ERROR] The error occurred during request processing.",
                 Detail = exception.Message,
                 Instance = context.Request.Path
             };

@@ -1,8 +1,11 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using OrderManagement.Api.Middlewares;
+using OrderManagement.Infrastructure;
 
 var builder = WebApplication.CreateSlimBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQL");
 
 builder.AddServiceDefaults();
 
@@ -26,6 +29,8 @@ builder.Services.AddCors(options =>
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddInfrastructure(connectionString);
 
 var app = builder.Build();
 app.UseCors(myAllowSpecificOrigins);

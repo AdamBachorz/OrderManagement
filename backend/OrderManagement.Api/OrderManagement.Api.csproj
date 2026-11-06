@@ -17,11 +17,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OrderManagement.Application\OrderManagement.Application.csproj" />
+    <ProjectReference Include="..\OrderManagement.Infrastructure\OrderManagement.Infrastructure.csproj" />
     <ProjectReference Include="..\OrderManagement.ServiceDefaults\OrderManagement.ServiceDefaults.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Endpoints\Experimental\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Configuration\" />
   </ItemGroup>
   
 </Project>
