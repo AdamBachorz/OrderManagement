@@ -20,8 +20,15 @@ RUN apt-get update \
     clang zlib1g-dev
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+
 COPY ["OrderManagement.Api/OrderManagement.Api.csproj", "OrderManagement.Api/"]
+COPY ["OrderManagement.Application/OrderManagement.Application.csproj", "OrderManagement.Application/"]
+COPY ["OrderManagement.Infrastructure/OrderManagement.Infrastructure.csproj", "OrderManagement.Infrastructure/"]
+COPY ["OrderManagement.Domain/OrderManagement.Domain.csproj", "OrderManagement.Domain/"]
+COPY ["OrderManagement.ServiceDefaults/OrderManagement.ServiceDefaults.csproj", "OrderManagement.ServiceDefaults/"]
+
 RUN dotnet restore "./OrderManagement.Api/OrderManagement.Api.csproj"
+
 COPY . .
 WORKDIR "/src/OrderManagement.Api"
 RUN dotnet build "./OrderManagement.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build

@@ -3,16 +3,18 @@ services:
     image: postgres:16-alpine
     container_name: ordermanagement-postgres
     restart: unless-stopped
+    env_file:
+      - ./.env
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - "${POSTGRES_PORT}:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -25,12 +27,14 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - ./.env
     environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ASPNETCORE_URLS: http://+:${APP_API_PORT}
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:8080
       ConnectionStrings__PostgreSQL: ${ConnectionStrings__PostgreSQL}
     ports:
-      - "${APP_API_PORT}:${APP_API_PORT}"
+      - "${APP_API_PORT:-8080}:8080"
     restart: unless-stopped
 
   ordermanagement-apphost:
@@ -43,12 +47,13 @@ services:
         condition: service_healthy
       ordermanagement-api:
         condition: service_started
+    env_file:
+      - ./.env
     environment:
-      DOTNET_ENVIRONMENT: ${DOTNET_ENVIRONMENT}
-      ASPNETCORE_URLS: http://+:${APP_APPHOST_PORT}
-      ConnectionStrings__PostgreSQL: ${ConnectionStrings__PostgreSQL}
+      DOTNET_ENVIRONMENT: ${DOTNET_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:18888
     ports:
-      - "${APP_APPHOST_PORT}:${APP_APPHOST_PORT}"
+      - "${APP_APPHOST_PORT:-18888}:18888"
     restart: unless-stopped
 
 volumes:
