@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using OrderManagement.Application.Features.Orders.Queries;
 
 namespace OrderManagement.Application
 {
@@ -6,6 +7,12 @@ namespace OrderManagement.Application
     {
         extension(IServiceCollection services)
         {
+            public IServiceCollection AddApplication()
+            {
+                services.AddScoped<GetOrdersQueryHandler>();
+
+                return services;
+            }
 
         }
     }

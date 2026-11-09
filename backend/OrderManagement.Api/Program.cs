@@ -1,7 +1,13 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using OrderManagement.Api.Middlewares;
+using OrderManagement.Api.Endpoints;
+using OrderManagement.Application;
+using OrderManagement.Application.Features.Orders.Queries;
 using OrderManagement.Infrastructure;
+using OrderManagement.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -31,6 +37,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 
 builder.Services.AddInfrastructure(connectionString);
+builder.Services.AddApplication();
+
 
 var app = builder.Build();
 app.UseCors(myAllowSpecificOrigins);
@@ -41,6 +49,13 @@ app.MapDefaultEndpoints();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+
+    await using var scope = app.Services.CreateAsyncScope();
+
+    var dbContext = scope.ServiceProvider
+        .GetRequiredService<AppDbContext>();
+
+    await dbContext.Database.MigrateAsync();
 }
 
 // Add test endpoints for demonstration purposes
@@ -64,6 +79,7 @@ app.MapGet("/api/v1/error-test", (ILogger<Program> logger) =>
     return TypedResults.Problem("This is a test error response", statusCode: 500);
 });
 
+app.MapOrderEndpoints();
 
 app.Run();
 

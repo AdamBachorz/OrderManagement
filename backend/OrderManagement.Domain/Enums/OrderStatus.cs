@@ -2,10 +2,11 @@
 {
     public enum OrderStatus
     {
-        New = 0,
-        Confirmed = 1,
-        Processing = 2,
-        Completed = 3,
-        Cancelled = 4
+        None = 0,
+        New = 1,
+        Confirmed = 2,
+        Processing = 3,
+        Completed = 4,
+        Cancelled = 5
     }
 }

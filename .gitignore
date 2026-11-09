@@ -3,6 +3,8 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+.scratch/
+
 # Local environment files and secrets
 .env
 **/.env

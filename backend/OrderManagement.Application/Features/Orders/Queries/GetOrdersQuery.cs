@@ -8,8 +8,8 @@ using OrderManagement.Domain.Enums;
 namespace OrderManagement.Application.Features.Orders.Queries
 {
     public sealed record GetOrdersQuery(
-        string? Search = null,
-        OrderStatus? Status = null,
+        string Search = null,
+        OrderStatus Status = OrderStatus.None,
         int Page = 1,
         int PageSize = 20)
         {
@@ -27,7 +27,7 @@ namespace OrderManagement.Application.Features.Orders.Queries
 
             var orders = db.Orders.AsNoTracking();
 
-            if (query.Status is { } status)
+            if (query.Status is { } status && status != OrderStatus.None)
                 orders = orders.Where(o => o.Status == status);
 
             var term = query.Search?.Trim().ToLower();
